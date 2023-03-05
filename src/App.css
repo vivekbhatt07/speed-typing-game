@@ -1,0 +1,64 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap");
+
+.app {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  font-family: "Space Mono", monospace;
+  background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+}
+
+.app-container {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+}
+
+.app-title {
+  text-transform: capitalize;
+  text-align: center;
+  color: #fff;
+}
+
+.app-input {
+  width: 100%;
+  height: 150px;
+  padding: 1em;
+  font-family: "Space Mono", monospace;
+}
+
+.app-time {
+  text-transform: capitalize;
+  text-align: center;
+  color: #fff;
+}
+
+.app-button {
+  display: block;
+  font-size: 14px;
+  padding: 0.5em 1em;
+  border: none;
+  background: #bada55;
+  margin: 0 auto;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: "Space Mono", monospace;
+  font-weight: 700;
+  border-radius: 8px;
+  transition: transform 0.2s;
+}
+
+.app-button:hover {
+  transform: scale(1.1);
+}
+
+.app-button:active {
+  transform: scale(1);
+}
+
+.app-count {
+  text-transform: capitalize;
+  text-align: center;
+  color: #fff;
+}
