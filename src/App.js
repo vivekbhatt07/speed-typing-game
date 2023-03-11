@@ -4,6 +4,7 @@ import Typing from "./Asset/img/typing.gif";
 function App() {
   const [inputText, setInputText] = useState({ text: "" });
   const [timeRemaining, setTimeRemaining] = useState(5);
+  const [isTimeRunning, setIsTimeRunning] = useState(false);
 
   const inputTextHandler = (event) => {
     const { name, value } = event.target;
@@ -27,12 +28,14 @@ function App() {
   // COUNTDOWN FUNCTIONALITY:
 
   useEffect(() => {
-    if (timeRemaining > 0) {
+    if (timeRemaining > 0 && isTimeRunning) {
       setTimeout(() => {
         setTimeRemaining(timeRemaining - 1);
       }, 1000);
+    } else if (timeRemaining == 0) {
+      setIsTimeRunning(false);
     }
-  }, [timeRemaining]);
+  }, [timeRemaining, isTimeRunning]);
   // --------------------------------------------------
 
   return (
@@ -47,10 +50,7 @@ function App() {
           onChange={inputTextHandler}
         />
         <h2 className="app-time">time remaining: {timeRemaining}</h2>
-        <button
-          className="app-button"
-          onClick={() => countWord(inputText.text)}
-        >
+        <button className="app-button" onClick={() => setIsTimeRunning(true)}>
           start
         </button>
         <h3 className="app-count">word count: 10</h3>
