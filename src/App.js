@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Typing from "./Asset/img/typing.gif";
 function App() {
   const [inputText, setInputText] = useState({ text: "" });
+  const [timeRemaining, setTimeRemaining] = useState(5);
 
   const inputTextHandler = (event) => {
     const { name, value } = event.target;
@@ -23,6 +24,17 @@ function App() {
 
   // --------------------------------------------------
 
+  // COUNTDOWN FUNCTIONALITY:
+
+  useEffect(() => {
+    if (timeRemaining > 0) {
+      setTimeout(() => {
+        setTimeRemaining(timeRemaining - 1);
+      }, 1000);
+    }
+  }, [timeRemaining]);
+  // --------------------------------------------------
+
   return (
     <div className="app">
       <div className="app-container">
@@ -34,7 +46,7 @@ function App() {
           value={inputText.text}
           onChange={inputTextHandler}
         />
-        <h2 className="app-time">time remaining: 5</h2>
+        <h2 className="app-time">time remaining: {timeRemaining}</h2>
         <button
           className="app-button"
           onClick={() => countWord(inputText.text)}
