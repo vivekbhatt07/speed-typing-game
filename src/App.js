@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import Typing from "./Asset/img/typing.gif";
 function App() {
+  const START_COUNT = 5;
+
   const [inputText, setInputText] = useState({ text: "" });
-  const [timeRemaining, setTimeRemaining] = useState(5);
+  const [timeRemaining, setTimeRemaining] = useState(START_COUNT);
   const [isTimeRunning, setIsTimeRunning] = useState(false);
   const [wordCount, setWordCount] = useState(0);
 
@@ -12,6 +14,25 @@ function App() {
     return setInputText((prevInputText) => {
       return { ...prevInputText, [name]: value };
     });
+  };
+
+  const textAreaRef = useRef(null);
+
+  // GAME START FUNCTIONALITY:
+
+  const startTyping = () => {
+    setIsTimeRunning(true);
+    setTimeRemaining(START_COUNT);
+    setInputText((prevInputText) => ({ ...prevInputText, text: "" }));
+    setWordCount(0);
+    textAreaRef.current.disabled = false;
+    textAreaRef.current.focus();
+  };
+
+  const endTyping = () => {
+    setIsTimeRunning(false);
+    const numberOfWords = countWord(inputText.text);
+    setWordCount(numberOfWords);
   };
 
   // COUNT WORDS FUNCTIONALITY:
@@ -33,9 +54,7 @@ function App() {
         setTimeRemaining(timeRemaining - 1);
       }, 1000);
     } else if (timeRemaining == 0) {
-      setIsTimeRunning(false);
-      const numberOfWords = countWord(inputText.text);
-      setWordCount(numberOfWords);
+      endTyping();
     }
   }, [timeRemaining, isTimeRunning]);
   // --------------------------------------------------
@@ -50,9 +69,15 @@ function App() {
           name="text"
           value={inputText.text}
           onChange={inputTextHandler}
+          disabled={!isTimeRunning}
+          ref={textAreaRef}
         />
         <h2 className="app-time">time remaining: {timeRemaining}</h2>
-        <button className="app-button" onClick={() => setIsTimeRunning(true)}>
+        <button
+          className="app-button"
+          onClick={() => startTyping()}
+          disabled={isTimeRunning}
+        >
           start
         </button>
         <h3 className="app-count">word count: {wordCount}</h3>
