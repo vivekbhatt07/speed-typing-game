@@ -5,6 +5,7 @@ function App() {
   const [inputText, setInputText] = useState({ text: "" });
   const [timeRemaining, setTimeRemaining] = useState(5);
   const [isTimeRunning, setIsTimeRunning] = useState(false);
+  const [wordCount, setWordCount] = useState(0);
 
   const inputTextHandler = (event) => {
     const { name, value } = event.target;
@@ -19,8 +20,7 @@ function App() {
     const wordList = str.trim().split(" ");
     const filterEmpty = wordList.filter((currentWord) => currentWord != "");
     const wordListLength = filterEmpty.length;
-    console.log(wordListLength);
-    // return wordListLength;
+    return wordListLength;
   };
 
   // --------------------------------------------------
@@ -34,6 +34,8 @@ function App() {
       }, 1000);
     } else if (timeRemaining == 0) {
       setIsTimeRunning(false);
+      const numberOfWords = countWord(inputText.text);
+      setWordCount(numberOfWords);
     }
   }, [timeRemaining, isTimeRunning]);
   // --------------------------------------------------
@@ -53,7 +55,7 @@ function App() {
         <button className="app-button" onClick={() => setIsTimeRunning(true)}>
           start
         </button>
-        <h3 className="app-count">word count: 10</h3>
+        <h3 className="app-count">word count: {wordCount}</h3>
       </div>
     </div>
   );
