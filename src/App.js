@@ -1,64 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import Typing from "./Asset/img/typing.gif";
+import useWordGame from "./useWordGame";
 function App() {
-  const START_COUNT = 5;
-
-  const [inputText, setInputText] = useState({ text: "" });
-  const [timeRemaining, setTimeRemaining] = useState(START_COUNT);
-  const [isTimeRunning, setIsTimeRunning] = useState(false);
-  const [wordCount, setWordCount] = useState(0);
-
-  const inputTextHandler = (event) => {
-    const { name, value } = event.target;
-    return setInputText((prevInputText) => {
-      return { ...prevInputText, [name]: value };
-    });
-  };
-
-  const textAreaRef = useRef(null);
-
-  // GAME START FUNCTIONALITY:
-
-  const startTyping = () => {
-    setIsTimeRunning(true);
-    setTimeRemaining(START_COUNT);
-    setInputText((prevInputText) => ({ ...prevInputText, text: "" }));
-    setWordCount(0);
-    textAreaRef.current.disabled = false;
-    textAreaRef.current.focus();
-  };
-
-  const endTyping = () => {
-    setIsTimeRunning(false);
-    const numberOfWords = countWord(inputText.text);
-    setWordCount(numberOfWords);
-  };
-
-  // COUNT WORDS FUNCTIONALITY:
-
-  const countWord = (str) => {
-    const wordList = str.trim().split(" ");
-    const filterEmpty = wordList.filter((currentWord) => currentWord != "");
-    const wordListLength = filterEmpty.length;
-    return wordListLength;
-  };
-
-  // --------------------------------------------------
-
-  // COUNTDOWN FUNCTIONALITY:
-
-  useEffect(() => {
-    if (timeRemaining > 0 && isTimeRunning) {
-      setTimeout(() => {
-        setTimeRemaining(timeRemaining - 1);
-      }, 1000);
-    } else if (timeRemaining == 0) {
-      endTyping();
-    }
-  }, [timeRemaining, isTimeRunning]);
-  // --------------------------------------------------
-
+  const {
+    wordCount,
+    startTyping,
+    isTimeRunning,
+    textAreaRef,
+    inputText,
+    inputTextHandler,
+    timeRemaining,
+  } = useWordGame(15);
   return (
     <div className="app">
       <div className="app-container">
